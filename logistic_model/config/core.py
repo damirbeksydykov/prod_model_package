@@ -31,7 +31,7 @@ class ModelConfig(BaseModel):
     All configuration relevant to model 
     training and feature engineering.
     """
-
+    target: str
     numerical_variables: List[int]
     categorical_variables: List[str]
     cabin; str
