@@ -32,8 +32,8 @@ class ModelConfig(BaseModel):
     training and feature engineering.
     """
     target: str
-    numerical_variables: List[int]
-    categorical_variables: List[str]
+    numerical_var: List[int]
+    categorical_vars: List[str]
     cabin; str
 
 class Config(BaseModel):

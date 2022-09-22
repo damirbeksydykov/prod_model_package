@@ -1,5 +1,6 @@
 from fileinput import filename
-import typing as t
+import logging
+import typing as Any, List, Union
 from pathlib import Path
 
 import joblib
@@ -9,6 +10,51 @@ from sklearn.pipeline import Pipeline
 from logistic_model import __version__ as _version
 from logistic_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR, config
 
+logger = logging.getLogger(__name__)
+
+
+# float type for np.nan
+def get_first_cabin(row:Any) ->Union[str, float]:
+    try:
+        return row.split()[0]
+    except:
+        return np.nan
+
+
+def get_title(passenger:str) -> str:
+    """ Extracts the title (Mr, Ms, etc) from the name variable."""
+    line = passenger
+    if re.search('Mrs', line):
+        return 'Mrs'
+    elif re.search('Mr', line):
+        return 'Mr'
+    elif re.search('Miss', line):
+        return 'Miss'
+    elif re.search('Master', line):
+        return 'Master'
+    else:
+        return 'Other'
+
+
+def pre_pipeline_preparation(*, dataframe: pd.DataFrame) -> pd.DataFrame:
+    # replace ? with NaN values
+    data = dataframe.replace("?", np.nan)
+
+
+    # retain only the first cabin if more than
+    # 1 are available per passanger
+    data["cabin"] = data['cabin'].apply(get_first_cabin)
+
+    data['title'] = data['name'].apply(get_title)
+
+    # cast numerical variables as floats
+    data['fare'] = data['fare'].astype("float")
+    data['age'] = data['age'].astype("float")
+
+    # drop unnecessary variables
+    data.drop(labels=config.model_config.unused_fields, axis=1, inplace=True)
+
+    return data
 
 def load_dataset(*, file_name:str) -> pd.DataFrame:
     
