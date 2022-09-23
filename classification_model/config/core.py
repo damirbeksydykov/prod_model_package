@@ -19,8 +19,7 @@ class AppConfig(BaseModel):
     Application-level config.
     """
     package_name: str
-    training_data_file: str
-    test_data_file: str
+    raw_data_file:str
     pipeline_save_file: str
 
 
@@ -45,7 +44,7 @@ class Config(BaseModel):
     model_config: ModelConfig
 
 
-def find_config_fiel() -> Path:
+def find_config_file() -> Path:
     """Locate the configuration file."""
     if CONFIG_FILE_PATH.is_file():
         return CONFIG_FILE_PATH
