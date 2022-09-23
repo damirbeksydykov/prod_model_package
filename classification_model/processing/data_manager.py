@@ -1,4 +1,3 @@
-from fileinput import filename
 import logging
 import typing as Any, List, Union
 from pathlib import Path
@@ -7,8 +6,8 @@ import joblib
 import pandas as pd
 from sklearn.pipeline import Pipeline
 
-from logistic_model import __version__ as _version
-from logistic_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR, config
+from classification_model import __version__ as _version
+from classification_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR, config
 
 logger = logging.getLogger(__name__)
 
@@ -56,10 +55,14 @@ def pre_pipeline_preparation(*, dataframe: pd.DataFrame) -> pd.DataFrame:
 
     return data
 
-def load_dataset(*, file_name:str) -> pd.DataFrame:
-    
-    dataframe = pd.read_csv(Path(f"{DATASET_DIR}/{file_name}"))
 
+def _load_raw_dataset(*,file_name: str) -> pd.DataFrame:
+    dataframe = pd.read_csv(Path(f"{DATASET_DIR}/{file_name}"))
+    return dataframe
+
+def load_dataset(*, file_name:str) -> pd.DataFrame:
+    dataframe = pd.read_csv(Path(f"{DATASET_DIR}/{file_name}"))
+    transformed = pre_pipeline_preparation(dataframe=dataframe)
     return dataframe
 
 
@@ -75,7 +78,7 @@ def save_pipeline(*, pipeline_to_persist: Pipeline) -> None:
     save_file_name = f"{config.app_config.pipeline_save_file}{_version}.pkl"
     save_path = TRAINED_MODEL_DIR / save_file_name
 
-    remove_old_pipeline(files_to_keep[save_file_name])
+    remove_old_pipeline(files_to_keep=[save_file_name])
     joblib.dump(pipeline_to_persist, save_path)
 
 
@@ -87,7 +90,7 @@ def load_pipeline(*, file_name:str) -> Pipeline:
     return trained_model
 
 
-def remove_old_pipeline(*, files_to_keep: t.List[str]) -> None:
+def remove_old_pipeline(*, files_to_keep: List[str]) -> None:
     """
     Remove old model pipelines.
     This is to ensure there is a simple one-to-one
