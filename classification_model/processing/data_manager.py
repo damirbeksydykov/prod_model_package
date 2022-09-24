@@ -2,7 +2,6 @@ import logging
 import re
 from pathlib import Path
 from typing import Any, List, Union
-from pathlib import Path
 
 import joblib
 import numpy as np
@@ -19,7 +18,7 @@ logger = logging.getLogger(__name__)
 def get_first_cabin(row:Any) ->Union[str, float]:
     try:
         return row.split()[0]
-    except:
+    except AttributeError:
         return np.nan
 
 
@@ -42,16 +41,15 @@ def pre_pipeline_preparation(*, dataframe: pd.DataFrame) -> pd.DataFrame:
     # replace ? with NaN values
     data = dataframe.replace("?", np.nan)
 
-
     # retain only the first cabin if more than
     # 1 are available per passanger
-    data["cabin"] = data['cabin'].apply(get_first_cabin)
+    data["cabin"] = data["cabin"].apply(get_first_cabin)
 
-    data['title'] = data['name'].apply(get_title)
+    data["title"] = data["name"].apply(get_title)
 
     # cast numerical variables as floats
-    data['fare'] = data['fare'].astype("float")
-    data['age'] = data['age'].astype("float")
+    data["fare"] = data["fare"].astype("float")
+    data["age"] = data["age"].astype("float")
 
     # drop unnecessary variables
     data.drop(labels=config.model_config.unused_fields, axis=1, inplace=True)
@@ -66,7 +64,7 @@ def _load_raw_dataset(*,file_name: str) -> pd.DataFrame:
 def load_dataset(*, file_name:str) -> pd.DataFrame:
     dataframe = pd.read_csv(Path(f"{DATASET_DIR}/{file_name}"))
     transformed = pre_pipeline_preparation(dataframe=dataframe)
-    return dataframe
+    return transformed
 
 
 def save_pipeline(*, pipeline_to_persist: Pipeline) -> None:

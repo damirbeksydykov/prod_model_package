@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, List, Sequence
+from typing import  Sequence
 
 from pydantic import BaseModel
 from strictyaml import YAML, load
@@ -59,7 +59,7 @@ def fetch_config_from_yaml(cfg_path: Path = None) -> YAML:
 
     if cfg_path:
         with open(cfg_path, "r") as conf_file:
-            parsed_config = load(conf_file.read)
+            parsed_config = load(conf_file.read())
             return parsed_config
     raise OSError(f"Did not find config file at path: {cfg_path}")
 
@@ -68,7 +68,7 @@ def create_and_validate_config(parsed_config: YAML = None) -> Config:
     """Run validation on config values."""
 
     if parsed_config is None:
-        parsed_config = fetch_config_from_yaml
+        parsed_config = fetch_config_from_yaml()
 
     # specify the data attribute from strictyaml YAML type.
     _config = Config(

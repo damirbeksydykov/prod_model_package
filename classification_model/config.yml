@@ -3,8 +3,8 @@ package_name: regression_model
 
 # Data Files
 raw_data_file: raw.csv
-training_data_file: train_csv
-test_data_file: test_csv
+training_data_file: train.csv
+test_data_file: test.csv
 
 # Variables
 # The variable we are trying to predict (survived)
@@ -25,7 +25,7 @@ features:
   - title  # generated from name
 
   # set train/test split
-test_size: 0.2
+test_size: 0.1
 
   # set the random seed
 random_state: 0

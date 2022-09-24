@@ -27,14 +27,14 @@ titanic_pipe = Pipeline(
         ),
         # add missing indicator to numerical variables
         (
-            "missing_indidcator",
-            AddMissingIndicator(variables=config.model_config.numerical_var),
+            "missing_indicator",
+            AddMissingIndicator(variables=config.model_config.numerical_vars),
         ),
         # impute numerical variables with the median
         (
             "median_imputation",
             MeanMedianImputer(
-                imputation_method="median", variables=config.model_config.numerical_var
+                imputation_method="median", variables=config.model_config.numerical_vars
             ),
         ),
         # Extract letter from cabin
@@ -56,7 +56,7 @@ titanic_pipe = Pipeline(
         # Scale the values
         ("scaler", StandardScaler()),
         # Train the data
-        ("Logit", LogisticRegression(C=0.0005, random_state=0))
+        ("Logit", LogisticRegression(C=0.0005, random_state=0)),
 
 
     ]
