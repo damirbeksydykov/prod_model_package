@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def simple_input_data():
+def sample_input_data():
     data = _load_raw_dataset(file_name=config.app_config.raw_data_file)
 
     # divide train and test

@@ -8,7 +8,7 @@ from classification_model.config.core import config
 from classification_model.processing.data_manager import pre_pipeline_preparation
 
 
-def validate_inputs(*input_data: pd.DataFrame) -> Tuple[pd.DataFrame, Optional[dict]]:
+def validate_inputs(*, input_data: pd.DataFrame) -> Tuple[pd.DataFrame, Optional[dict]]:
     """Check model inputs for unprocessable values."""
 
     pre_processed = pre_pipeline_preparation(dataframe=input_data)

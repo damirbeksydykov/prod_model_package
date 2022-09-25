@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 # float type for np.nan
-def get_first_cabin(row:Any) ->Union[str, float]:
+def get_first_cabin(row:Any) -> Union[str, float]:
     try:
         return row.split()[0]
     except AttributeError:
@@ -40,16 +40,19 @@ def get_title(passenger:str) -> str:
 def pre_pipeline_preparation(*, dataframe: pd.DataFrame) -> pd.DataFrame:
     # replace ? with NaN values
     data = dataframe.replace("?", np.nan)
-
+    
     # retain only the first cabin if more than
     # 1 are available per passanger
-    data["cabin"] = data["cabin"].apply(get_first_cabin)
+    
+    data['cabin'] = data['cabin'].apply(get_first_cabin)
 
     data["title"] = data["name"].apply(get_title)
+
 
     # cast numerical variables as floats
     data["fare"] = data["fare"].astype("float")
     data["age"] = data["age"].astype("float")
+    
 
     # drop unnecessary variables
     data.drop(labels=config.model_config.unused_fields, axis=1, inplace=True)
@@ -99,7 +102,7 @@ def remove_old_pipeline(*, files_to_keep: List[str]) -> None:
     version to be imported and used by other applications.
     """
 
-    do_not_delete = files_to_keep + ["__inint__.py"]
+    do_not_delete = files_to_keep + ["__init__.py"]
     for model_file in TRAINED_MODEL_DIR.iterdir():
         if model_file.name not in do_not_delete:
             model_file.unlink()

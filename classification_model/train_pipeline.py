@@ -33,5 +33,5 @@ def run_training() -> None:
     save_pipeline(pipeline_to_persist=titanic_pipe)
 
 
-if __name__=="__main__":
+if __name__== "__main__":
     run_training()
