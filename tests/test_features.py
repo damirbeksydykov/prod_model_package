@@ -1,6 +1,7 @@
 from classification_model.config.core import config
 from classification_model.processing.features import ExtractLetterTransformer
 
+
 def test_temporal_variable_transformer(sample_input_data):
     # given
     transformer = ExtractLetterTransformer(

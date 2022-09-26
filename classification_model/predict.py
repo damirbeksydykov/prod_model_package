@@ -1,4 +1,4 @@
-import typing as t 
+import typing as t
 
 import pandas as pd
 
