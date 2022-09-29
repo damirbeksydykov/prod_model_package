@@ -2,7 +2,9 @@
 from feature_engine.encoding import OneHotEncoder, RareLabelEncoder
 
 # for imputation
-from feature_engine.imputation import AddMissingIndicator, CategoricalImputer, MeanMedianImputer
+from feature_engine.imputation import AddMissingIndicator
+from feature_engine.imputation import CategoricalImputer
+from feature_engine.imputation import MeanMedianImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -11,7 +13,7 @@ from classification_model.config.core import config
 from classification_model.processing.features import ExtractLetterTransformer
 
 titanic_pipe = Pipeline(
-    [ 
+    [
         # impute categorical variables with string missing
         (
             "categorical_imputation",
@@ -42,7 +44,7 @@ titanic_pipe = Pipeline(
         # group them in one category called "Rare"
         (
             "rare_label_encoder",
-            RareLabelEncoder(tol=0.05, n_categories=1,variables=config.model_config.categorical_vars)
+            RareLabelEncoder(tol=0.05, n_categories=1, variables=config.model_config.categorical_vars)
         ),
         # encode categorical variables using one hot encoding into k-1 variables
         (
