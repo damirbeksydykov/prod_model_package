@@ -1,8 +1,13 @@
 # for encoding categorical variables
 from feature_engine.encoding import OneHotEncoder, RareLabelEncoder
 
+
 # for imputation
-from feature_engine.imputation import AddMissingIndicator, CategoricalImputer, MeanMedianImputer
+from feature_engine.imputation import (
+    AddMissingIndicator,
+    CategoricalImputer,
+    MeanMedianImputer,
+)
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
