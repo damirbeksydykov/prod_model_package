@@ -1,4 +1,3 @@
-
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
@@ -19,12 +18,12 @@ def validate_inputs(*, input_data: pd.DataFrame) -> Tuple[pd.DataFrame, Optional
     try:
         # replace numpy nans so that pydantic can validate
         MultipleTitanicDataInputs(
-            inputs=validated_data.replace({np.nan:None}).to_dict(orient="records")
+            inputs=validated_data.replace({np.nan: None}).to_dict(orient="records")
         )
     except ValidationError as error:
-            errors = error.json()
+        errors = error.json()
 
-    return validated_data, errors    
+    return validated_data, errors
 
 
 class TitanicDataInputSchema(BaseModel):
@@ -44,5 +43,3 @@ class TitanicDataInputSchema(BaseModel):
 
 class MultipleTitanicDataInputs(BaseModel):
     inputs: List[TitanicDataInputSchema]
-
-

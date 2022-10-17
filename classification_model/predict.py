@@ -11,7 +11,10 @@ pipeline_file_name = f"{config.app_config.pipeline_save_file}{_version}.pkl"
 _titanic_pipe = load_pipeline(file_name=pipeline_file_name)
 
 
-def make_prediction(*, input_data: t.Union[pd.DataFrame, dict],) -> dict:
+def make_prediction(
+    *,
+    input_data: t.Union[pd.DataFrame, dict],
+) -> dict:
     """Make a prediction using a saved model pipeline"""
 
     data = pd.DataFrame(input_data)
@@ -19,8 +22,8 @@ def make_prediction(*, input_data: t.Union[pd.DataFrame, dict],) -> dict:
     results = {"predictions": None, "version": _version, "errors": errors}
 
     if not errors:
-        predictions = _titanic_pipe.predict(X=validated_data[config.model_config.features])
-        results = {"predictions": predictions,
-                   "version": _version,
-                   "errors": errors}
+        predictions = _titanic_pipe.predict(
+            X=validated_data[config.model_config.features]
+        )
+        results = {"predictions": predictions, "version": _version, "errors": errors}
     return results

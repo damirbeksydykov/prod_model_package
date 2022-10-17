@@ -16,10 +16,10 @@ def run_training() -> None:
     # read training data
     data = load_dataset(file_name=config.app_config.raw_data_file)
 
-    # divide and train and test 
+    # divide and train and test
     X_train, X_test, y_train, y_test = train_test_split(
-        data[config.model_config.features], # predictors
-        data[config.model_config.target], # target
+        data[config.model_config.features],  # predictors
+        data[config.model_config.target],  # target
         test_size=config.model_config.test_size,
         # we are setting the random seed here
         # for reproducibility
@@ -33,5 +33,5 @@ def run_training() -> None:
     save_pipeline(pipeline_to_persist=titanic_pipe)
 
 
-if __name__== "__main__":
+if __name__ == "__main__":
     run_training()

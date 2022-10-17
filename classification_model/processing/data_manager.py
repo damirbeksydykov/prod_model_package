@@ -15,44 +15,42 @@ logger = logging.getLogger(__name__)
 
 
 # float type for np.nan
-def get_first_cabin(row:Any) -> Union[str, float]:
+def get_first_cabin(row: Any) -> Union[str, float]:
     try:
         return row.split()[0]
     except AttributeError:
         return np.nan
 
 
-def get_title(passenger:str) -> str:
-    """ Extracts the title (Mr, Ms, etc) from the name variable."""
+def get_title(passenger: str) -> str:
+    """Extracts the title (Mr, Ms, etc) from the name variable."""
     line = passenger
-    if re.search('Mrs', line):
-        return 'Mrs'
-    elif re.search('Mr', line):
-        return 'Mr'
-    elif re.search('Miss', line):
-        return 'Miss'
-    elif re.search('Master', line):
-        return 'Master'
+    if re.search("Mrs", line):
+        return "Mrs"
+    elif re.search("Mr", line):
+        return "Mr"
+    elif re.search("Miss", line):
+        return "Miss"
+    elif re.search("Master", line):
+        return "Master"
     else:
-        return 'Other'
+        return "Other"
 
 
 def pre_pipeline_preparation(*, dataframe: pd.DataFrame) -> pd.DataFrame:
     # replace ? with NaN values
     data = dataframe.replace("?", np.nan)
-    
+
     # retain only the first cabin if more than
     # 1 are available per passanger
-    
-    data['cabin'] = data['cabin'].apply(get_first_cabin)
+
+    data["cabin"] = data["cabin"].apply(get_first_cabin)
 
     data["title"] = data["name"].apply(get_title)
-
 
     # cast numerical variables as floats
     data["fare"] = data["fare"].astype("float")
     data["age"] = data["age"].astype("float")
-    
 
     # drop unnecessary variables
     data.drop(labels=config.model_config.unused_fields, axis=1, inplace=True)
@@ -60,11 +58,12 @@ def pre_pipeline_preparation(*, dataframe: pd.DataFrame) -> pd.DataFrame:
     return data
 
 
-def _load_raw_dataset(*,file_name: str) -> pd.DataFrame:
+def _load_raw_dataset(*, file_name: str) -> pd.DataFrame:
     dataframe = pd.read_csv(Path(f"{DATASET_DIR}/{file_name}"))
     return dataframe
 
-def load_dataset(*, file_name:str) -> pd.DataFrame:
+
+def load_dataset(*, file_name: str) -> pd.DataFrame:
     dataframe = pd.read_csv(Path(f"{DATASET_DIR}/{file_name}"))
     transformed = pre_pipeline_preparation(dataframe=dataframe)
     return transformed
@@ -86,7 +85,7 @@ def save_pipeline(*, pipeline_to_persist: Pipeline) -> None:
     joblib.dump(pipeline_to_persist, save_path)
 
 
-def load_pipeline(*, file_name:str) -> Pipeline:
+def load_pipeline(*, file_name: str) -> Pipeline:
     """Load a persisted pipeline."""
 
     file_path = TRAINED_MODEL_DIR / file_name

@@ -13,10 +13,10 @@ def test_make_predictions(sample_input_data):
     # Given
     expected_no_predictions = 131
 
-    # When 
+    # When
     result = make_prediction(input_data=sample_input_data)
 
-    # Then 
+    # Then
     predictions = result.get("predictions")
     assert isinstance(predictions, np.ndarray)
     assert isinstance(predictions[0], np.int64)

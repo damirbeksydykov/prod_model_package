@@ -18,16 +18,18 @@ class AppConfig(BaseModel):
     """
     Application-level config.
     """
+
     package_name: str
-    raw_data_file:str
+    raw_data_file: str
     pipeline_save_file: str
 
 
 class ModelConfig(BaseModel):
     """
-    All configuration relevant to model 
+    All configuration relevant to model
     training and feature engineering.
     """
+
     target: str
     unused_fields: Sequence[str]
     features: Sequence[str]
@@ -40,6 +42,7 @@ class ModelConfig(BaseModel):
 
 class Config(BaseModel):
     """Master config object."""
+
     app_config: AppConfig
     model_config: ModelConfig
 
