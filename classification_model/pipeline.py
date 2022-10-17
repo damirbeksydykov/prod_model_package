@@ -1,10 +1,12 @@
 # for encoding categorical variables
-from feature_engine.encoding import OneHotEncoder, RareLabelEncoder
+from feature_engine.encoding import OneHotEncoder 
+from feature_engine.encoding import RareLabelEncoder
 
 # for imputation
 from feature_engine.imputation import AddMissingIndicator
 from feature_engine.imputation import CategoricalImputer
 from feature_engine.imputation import MeanMedianImputer
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -44,17 +46,17 @@ titanic_pipe = Pipeline(
         # group them in one category called "Rare"
         (
             "rare_label_encoder",
-            RareLabelEncoder(tol=0.05, n_categories=1, variables=config.model_config.categorical_vars)
+            RareLabelEncoder(tol=0.05, n_categories=1, 
+            variables=config.model_config.categorical_vars)
         ),
         # encode categorical variables using one hot encoding into k-1 variables
         (
-            "categorical_encoder", OneHotEncoder(drop_last=True, variables=config.model_config.categorical_vars),
+            "categorical_encoder", OneHotEncoder(drop_last=True, 
+             variables=config.model_config.categorical_vars),
         ),
         # Scale the values
         ("scaler", StandardScaler()),
         # Train the data
         ("Logit", LogisticRegression(C=0.0005, random_state=0)),
-
-
     ]
 )
