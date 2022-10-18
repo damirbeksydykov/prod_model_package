@@ -1,7 +1,6 @@
 # for encoding categorical variables
 from feature_engine.encoding import OneHotEncoder, RareLabelEncoder
 
-
 # for imputation
 from feature_engine.imputation import (
     AddMissingIndicator,
